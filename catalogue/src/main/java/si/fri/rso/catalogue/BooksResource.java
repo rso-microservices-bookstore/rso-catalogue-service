@@ -32,6 +32,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 //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
+
 @Path("/books")
 @RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
