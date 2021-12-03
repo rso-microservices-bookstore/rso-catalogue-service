@@ -4,7 +4,7 @@ RUN mkdir /app
 
 WORKDIR /app
 
-ADD ./catalogue/target/catalogue-1.0-SNAPSHOT.jar /app
+ADD ./catalogue-api/target/catalogue-1.0-SNAPSHOT.jar /app
 
 EXPOSE 3000
 
