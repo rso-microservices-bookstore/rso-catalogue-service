@@ -1,4 +1,11 @@
 kumuluzee:
+  name: catalogue-service
+  version: 1.0.0
+  server:
+    base-url: http://localhost:8080
+    http:
+      port: 8080
+
   datasources:
     - jndi-name: jdbc/BooksDS
       connection-url: jdbc:postgresql://localhost:5432/postgres
@@ -6,3 +13,8 @@ kumuluzee:
       password: postgres
       pool:
         max-size: 20
+
+rest-config:
+  string-property: Monday
+  boolean-property: true
+  integer-property: 23

@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="catalogue-api" />
         <module name="catalogue-persistance" />
+        <module name="catalogue-business-logic" />
       </profile>
     </annotationProcessing>
   </component>
