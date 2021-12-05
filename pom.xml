@@ -43,6 +43,11 @@
                 <artifactId>kumuluzee-rest-core</artifactId>
                 <version>${kumuluzee-rest.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>42.3.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
