@@ -12,4 +12,4 @@ kumuluzee:
       username: postgres
       password: postgres
       pool:
-        max-size: 0
+        max-size: 1
