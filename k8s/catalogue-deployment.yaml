@@ -13,7 +13,7 @@ spec:
         app: catalogue-service
     spec:
       containers:
-        - image: andrazceh/catalogue-service:2021-12-05-01-43-23
+        - image: andrazceh/catalogue-service:2021-12-05-08-40-34
           name: catalogue-service
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
@@ -29,7 +29,6 @@ spec:
             - containerPort: 8080
               name: server
               protocol: TCP
-
 ---
 
 apiVersion: v1
