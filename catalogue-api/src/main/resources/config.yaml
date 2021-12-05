@@ -11,8 +11,6 @@ kumuluzee:
       connection-url: jdbc:postgresql://localhost:5432/postgres
       username: postgres
       password: postgres
-      pool:
-        max-size: 20
 
 rest-config:
   string-property: Monday

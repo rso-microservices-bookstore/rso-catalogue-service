@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogue-service-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogue-service
+  template:
+    metadata:
+      labels:
+        app: catalogue-service
+    spec:
+      containers:
+        - image: andrazceh/catalogue-service:2021-12-05-01-43-23
+          name: catalogue-service
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://fanny.db.elephantsql.com:5432/ebzcidgb
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: ebzcidgb
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-pass
+                  key: KUMULUZEE_DATASOURCES0_PASSWORD
+          ports:
+            - containerPort: 8080
+              name: server
+              protocol: TCP
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogue-service
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: catalogue-service
+
