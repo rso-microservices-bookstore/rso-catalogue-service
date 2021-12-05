@@ -12,9 +12,4 @@ kumuluzee:
       username: postgres
       password: postgres
       pool:
-        max-size: 1
-
-rest-config:
-  string-property: Monday
-  boolean-property: true
-  integer-property: 23
+        max-size: 0
