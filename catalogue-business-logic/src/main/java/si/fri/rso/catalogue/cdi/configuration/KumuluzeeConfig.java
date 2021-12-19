@@ -11,7 +11,7 @@ import javax.enterprise.context.ApplicationScoped;
 public class KumuluzeeConfig {
     private String name;
     private String env;
-    private Server server;
+    private ServerConfig server;
 
     public String getName() {
         return name;
@@ -29,11 +29,11 @@ public class KumuluzeeConfig {
         this.env = env;
     }
 
-    public Server getServer() {
+    public ServerConfig getServer() {
         return server;
     }
 
-    public void setServer(Server server) {
+    public void setServer(ServerConfig server) {
         this.server = server;
     }
 }

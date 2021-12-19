@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consul-deployment
+spec:
+  replicas: 1 # koliko pod-ov MORA biti aktivnih
+  selector:
+    matchLabels:
+      app: consul
+  template:
+    metadata:
+      labels:
+        app: consul
+    spec:
+      containers:
+        - image: consul
+          name: consul
+          ports:
+            - containerPort: 8500
+              name: server
+              protocol: TCP
+
+---
+# to je objekt preko katerega izpostavimo vse pod-e do katerih želimo dostopati
+apiVersion: v1
+kind: Service
+metadata:
+  name: consul # poljubno, ne rabi bit isto kot zgoraj
+spec:
+  type: LoadBalancer # ali ClusterIP ali NodePort, ampak da ne kompliciramo z iskanjem IPjev pod-ov ipd. uporabimo to :)
+  ports:
+    - port: 8500
+      protocol: TCP
+      targetPort: server # iz zgoraj
+  selector:
+    app: consul # iz zgoraj

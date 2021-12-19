@@ -20,7 +20,7 @@
 */
 package si.fri.rso.catalogue;
 
-import si.fri.rso.catalogue.models.Book;
+import si.fri.rso.models.Book;
 
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
@@ -49,7 +49,7 @@ public class BooksResource {
      */
     @GET
     public Response getBooks() {
-
+        em.getEntityManagerFactory().getCache().evictAll();
         TypedQuery<Book> query = em.createNamedQuery("Book.findAll", Book.class);
 
         List<Book> books = query.getResultList();
@@ -66,7 +66,7 @@ public class BooksResource {
     @GET
     @Path("/{id}")
     public Response getBook(@PathParam("id") Integer id) {
-
+        em.getEntityManagerFactory().getCache().evictAll();
         Book b = em.find(Book.class, id);
 
         if (b == null)
