@@ -3,9 +3,6 @@ package si.fri.rso.models;
 import javax.persistence.*;
 import java.util.List;
 
-/**
- * TODO: ADD Price, Qunatity
- */
 
 @Entity
 @Table(name = "books")
@@ -22,8 +19,8 @@ public class Book {
 
     private String author;
 
-    @OneToMany(mappedBy="book")
-    private List<Order> bookOrders;
+    // @OneToMany(mappedBy="book")
+    // private List<Order> bookOrders;
 
     public Integer getId() {
         return id;
@@ -56,7 +53,7 @@ public class Book {
     public void setAuthor(String author) {
         this.author = author;
     }
-
+    /*
     public List<Order> getBookOrders() {
         return bookOrders;
     }
@@ -64,4 +61,5 @@ public class Book {
     public void setBookOrders(List<Order> bookOrders) {
         this.bookOrders = bookOrders;
     }
+     */
 }

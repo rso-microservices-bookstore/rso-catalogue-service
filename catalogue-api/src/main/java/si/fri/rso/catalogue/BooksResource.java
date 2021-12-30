@@ -20,6 +20,8 @@
 */
 package si.fri.rso.catalogue;
 
+import org.asynchttpclient.AsyncHttpClient;
+import org.asynchttpclient.DefaultAsyncHttpClient;
 import si.fri.rso.models.Book;
 
 import javax.enterprise.context.RequestScoped;
@@ -29,7 +31,9 @@ import javax.persistence.TypedQuery;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
 import java.util.List;
+import static org.asynchttpclient.Dsl.*;
 
 //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
 
@@ -94,4 +98,24 @@ public class BooksResource {
 
         return Response.status(Response.Status.CREATED).entity(b).build();
     }
+
+    @POST
+    @Path("/{isbn}")
+    public Response createBookByIsbn(@PathParam("isbn") String isbn) throws IOException {
+        AsyncHttpClient client = new DefaultAsyncHttpClient();
+     client.prepare("POST", "https://books17.p.rapidapi.com/works/title")
+                 	.setHeader("content-type", "application/json")
+                 	.setHeader("x-rapidapi-host", "books17.p.rapidapi.com")
+                 	.setHeader("x-rapidapi-key", "cda244c259mshb273a5a3ea26f2dp1775dfjsn1bbb691dc61c")
+                 	.setBody("{\"cursor\":1,\"title\":\"harry potter\",\"subtitle\":false}")
+                	.execute()
+                 	.toCompletableFuture()
+                 	.thenAccept(System.out::println)
+                	.join();
+
+     client.close();
+
+        return Response.status(Response.Status.CREATED).entity("b").build();
+    }
+
 }
