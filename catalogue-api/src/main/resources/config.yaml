@@ -7,6 +7,9 @@ kumuluzee:
     base-url: http://localhost:3000
     http:
       port: 3000
+  config:
+    consul:
+      agent: http://35.196.140.237
   datasources:
     - jndi-name: jdbc/BooksDS
       connection-url: jdbc:postgresql://localhost:5432/postgres
