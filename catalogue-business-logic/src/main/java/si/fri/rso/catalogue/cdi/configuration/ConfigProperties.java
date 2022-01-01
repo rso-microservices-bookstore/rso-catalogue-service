@@ -12,44 +12,13 @@ import javax.enterprise.context.ApplicationScoped;
 public class ConfigProperties {
 
     @ConfigValue(watch = true)
-    private String stringProperty;
+    private String externalApiKey;
 
-    private Boolean booleanProperty;
-
-    private Integer integerProperty;
-
-    @ConfigValue(watch = true)
-    private String encodedProperty;
-
-    public String getStringProperty() {
-        return stringProperty;
+    public String getExternalApiKey() {
+        return externalApiKey;
     }
 
-    public void setStringProperty(String stringProperty) {
-        this.stringProperty = stringProperty;
-    }
-
-    public Boolean getBooleanProperty() {
-        return booleanProperty;
-    }
-
-    public void setBooleanProperty(Boolean booleanPropertysomeBoolean) {
-        this.booleanProperty = booleanPropertysomeBoolean;
-    }
-
-    public Integer getIntegerProperty() {
-        return integerProperty;
-    }
-
-    public void setIntegerProperty(Integer integerProperty) {
-        this.integerProperty = integerProperty;
-    }
-
-    public String getEncodedProperty() {
-        return encodedProperty;
-    }
-
-    public void setEncodedProperty(String encodedProperty) {
-        this.encodedProperty = encodedProperty;
+    public void setExternalApiKey(String externalApiKey) {
+        this.externalApiKey = externalApiKey;
     }
 }

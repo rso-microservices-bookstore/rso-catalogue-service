@@ -17,3 +17,6 @@ kumuluzee:
       password: postgres
       pool:
         max-size: 1
+
+rest-config:
+  external-api-key: xxxx

@@ -20,11 +20,16 @@
 */
 package si.fri.rso.catalogue;
 
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClient;
+import si.fri.rso.catalogue.cdi.configuration.ConfigProperties;
 import si.fri.rso.models.Book;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -33,6 +38,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.Future;
+
 import static org.asynchttpclient.Dsl.*;
 
 //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
@@ -43,8 +50,12 @@ import static org.asynchttpclient.Dsl.*;
 @Consumes(MediaType.APPLICATION_JSON)
 public class BooksResource {
 
+
     @PersistenceContext
     private EntityManager em;
+
+    @Inject
+    private ConfigProperties properties;
 
     /**
      * <p>Queries the database and returns a list of all books.</p>
@@ -100,22 +111,50 @@ public class BooksResource {
     }
 
     @POST
-    @Path("/{isbn}")
-    public Response createBookByIsbn(@PathParam("isbn") String isbn) throws IOException {
+    @Path("/{id}")
+    public Response createBookByGoodReadsId(@PathParam("id") String id) throws IOException {
         AsyncHttpClient client = new DefaultAsyncHttpClient();
-     client.prepare("POST", "https://books17.p.rapidapi.com/works/title")
-                 	.setHeader("content-type", "application/json")
-                 	.setHeader("x-rapidapi-host", "books17.p.rapidapi.com")
-                 	.setHeader("x-rapidapi-key", "cda244c259mshb273a5a3ea26f2dp1775dfjsn1bbb691dc61c")
-                 	.setBody("{\"cursor\":1,\"title\":\"harry potter\",\"subtitle\":false}")
-                	.execute()
-                 	.toCompletableFuture()
-                 	.thenAccept(System.out::println)
-                	.join();
+         client.prepare("GET", "https://goodreads-books.p.rapidapi.com/books/"+ id)
+                .setHeader("x-rapidapi-host", "goodreads-books.p.rapidapi.com")
+                .setHeader("x-rapidapi-key", properties.getExternalApiKey())
+                .execute()
+                .toCompletableFuture()
+                .thenAccept(jsonString -> {
+                    ObjectMapper mapper = new ObjectMapper();
+                    JsonNode actualObj = null;
+                    try {
+                        actualObj = mapper.readTree(jsonString.getResponseBody());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-     client.close();
+                    // When
+                    JsonNode jsonNode1 = actualObj.get("title");
+                    JsonNode jsonNode2 = actualObj.get("author").get("name");
+                    JsonNode jsonNode3 = actualObj.get("description");
 
-        return Response.status(Response.Status.CREATED).entity("b").build();
+                    Book b = new Book();
+                    b.setTitle(jsonNode1.asText());
+                    b.setAuthor(jsonNode2.asText());
+                    b.setDescription(jsonNode3.asText());
+
+                    b.setId(null);
+
+                    em.getTransaction().begin();
+
+                    em.persist(b);
+
+                    em.getTransaction().commit();
+
+                })
+                .join();
+
+        client.close();
+        return Response.status(Response.Status.CREATED).entity("Book added to our database").build();
+
     }
+
+
+
 
 }

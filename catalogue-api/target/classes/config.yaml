@@ -1,11 +1,15 @@
 kumuluzee:
   name: catalogue-service
+  env:
+    name: dev
   version: 1.0.0
   server:
     base-url: http://localhost:3000
     http:
       port: 3000
-
+  config:
+    consul:
+      agent: http://35.196.140.237
   datasources:
     - jndi-name: jdbc/BooksDS
       connection-url: jdbc:postgresql://localhost:5432/postgres
@@ -13,3 +17,6 @@ kumuluzee:
       password: postgres
       pool:
         max-size: 1
+
+rest-config:
+  external-api-key: xxxx
