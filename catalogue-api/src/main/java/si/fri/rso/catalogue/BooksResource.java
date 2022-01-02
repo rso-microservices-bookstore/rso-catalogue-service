@@ -25,6 +25,13 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.asynchttpclient.AsyncHttpClient;
 import org.asynchttpclient.DefaultAsyncHttpClient;
+import org.eclipse.microprofile.openapi.annotations.Operation;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.headers.Header;
+import org.eclipse.microprofile.openapi.annotations.media.Content;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
+import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import si.fri.rso.catalogue.cdi.configuration.ConfigProperties;
 import si.fri.rso.models.Book;
 
@@ -38,9 +45,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.Future;
-
-import static org.asynchttpclient.Dsl.*;
 
 //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
 
@@ -62,6 +66,13 @@ public class BooksResource {
      *
      * @return Response object containing the retrieved list of books from the database.
      */
+    @Operation(description = "Response object containing the retrieved list of books from the database..", summary = "Get all books")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "List of books",
+                    content = @Content(schema = @Schema(implementation = Book.class, type = SchemaType.ARRAY)),
+                    headers = {@Header(name = "X-Total-Count", description = "Number of objects in list")}
+            )})
     @GET
     public Response getBooks() {
         em.getEntityManagerFactory().getCache().evictAll();
@@ -78,6 +89,18 @@ public class BooksResource {
      * @param id The id of the wanted book.
      * @return Response object containing the requested book, or empty with the NOT_FOUND status.
      */
+    @Operation(description = "Response object containing the requested book, or empty with the NOT_FOUND status.",
+            summary = "Get Book By Id")
+    @APIResponses({
+            @APIResponse(
+                    responseCode = "200",
+                    description = "Book object with selected id."
+            ),
+            @APIResponse(
+                    responseCode = "404",
+                    description = "Not found."
+            )
+    })
     @GET
     @Path("/{id}")
     public Response getBook(@PathParam("id") Integer id) {
@@ -96,6 +119,13 @@ public class BooksResource {
      * @param b The book object which will be created.
      * @return Response object containing the created book.
      */
+    @Operation(description = "Inserts the provided book into the database.", summary = "Inserts the provided book into the database.")
+    @APIResponses({
+            @APIResponse(
+                    responseCode = "201",
+                    description = "Response object containing the created book."
+            ),
+    })
     @POST
     public Response createBook(Book b) {
 
@@ -110,6 +140,14 @@ public class BooksResource {
         return Response.status(Response.Status.CREATED).entity(b).build();
     }
 
+    @Operation(description = "Inserts the book with id from Goodreads into the database.",
+            summary = "Inserts the book with id from Goodreads into the database.")
+    @APIResponses({
+            @APIResponse(
+                    responseCode = "201",
+                    description = "Response with confirmation."
+            ),
+    })
     @POST
     @Path("/{id}")
     public Response createBookByGoodReadsId(@PathParam("id") String id) throws IOException {
@@ -153,8 +191,5 @@ public class BooksResource {
         return Response.status(Response.Status.CREATED).entity("Book added to our database").build();
 
     }
-
-
-
 
 }

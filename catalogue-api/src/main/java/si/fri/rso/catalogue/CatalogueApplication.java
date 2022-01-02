@@ -20,9 +20,19 @@
 */
 package si.fri.rso.catalogue;
 
+import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;
+import org.eclipse.microprofile.openapi.annotations.info.Contact;
+import org.eclipse.microprofile.openapi.annotations.info.Info;
+import org.eclipse.microprofile.openapi.annotations.info.License;
+import org.eclipse.microprofile.openapi.annotations.servers.Server;
+
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
+@OpenAPIDefinition(info = @Info(title = "Customers API", version = "v1",
+        contact = @Contact(email = "ac8694@student.uni-lj.si"),
+        license = @License(name = "dev"), description = "API for managing books."),
+        servers = @Server(url = "http://104.196.7.69:3000/"))
 @ApplicationPath("")
 public class CatalogueApplication extends Application{
 }
