@@ -13,7 +13,7 @@ spec:
         app: catalogue-service
     spec:
       containers:
-        - image: andrazceh/catalogue-service:2021-12-31-19-17-17
+        - image: andrazceh/catalogue-service:2022-01-03-07-18-00
           name: catalogue-service
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL

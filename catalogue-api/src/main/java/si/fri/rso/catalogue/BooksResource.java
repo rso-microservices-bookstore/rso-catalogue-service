@@ -34,6 +34,7 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import si.fri.rso.catalogue.cdi.configuration.ConfigProperties;
 import si.fri.rso.models.Book;
+import si.fri.rso.models.Order;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -138,6 +139,42 @@ public class BooksResource {
         em.getTransaction().commit();
 
         return Response.status(Response.Status.CREATED).entity(b).build();
+    }
+
+
+
+    /**
+     * <p>Deletes the provided book from the database.</p>
+     *
+     * @param id The book id which will be deleted.
+     * @return Response object containing the created book.
+     */
+    @Operation(description = "Delete book from the database.", summary = "Delete book from the database.")
+    @APIResponses({
+            @APIResponse(
+                    responseCode = "201",
+                    description = "Response object containing the deleted book."
+            ),
+            @APIResponse(
+                    responseCode = "404",
+                    description = "Not found."
+            )
+    })
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteBook(@PathParam("id") Integer id) {
+
+        Book b = em.find(Book.class, id);
+        if (b== null)
+            return Response.status(Response.Status.NOT_FOUND).build();
+
+        em.getTransaction().begin();
+        em.remove(b);
+        em.flush();
+        em.getTransaction().commit();
+
+        return Response.ok(b).build();
     }
 
     @Operation(description = "Inserts the book with id from Goodreads into the database.",
