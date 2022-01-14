@@ -20,7 +20,6 @@
 */
 package si.fri.rso.catalogue;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.asynchttpclient.AsyncHttpClient;
@@ -34,7 +33,6 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import si.fri.rso.catalogue.cdi.configuration.ConfigProperties;
 import si.fri.rso.models.Book;
-import si.fri.rso.models.Order;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
